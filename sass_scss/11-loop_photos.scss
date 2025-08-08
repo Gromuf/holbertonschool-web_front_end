@@ -1,0 +1,8 @@
+/* 11-loop_photos.scss*/
+@use "11-photos" as p;
+
+@each $name in p.$list-names {
+  .photo-#{$name} {
+    background: image-url("photos/#{$name}.jpg") no-repeat;
+  }
+}
