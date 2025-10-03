@@ -9,12 +9,31 @@
   <body>
     <script type="application/javascript">
       function addPostRow(data) {
-        const paragraph = $("<p>");
+        const paragraph = $("<p>").attr("id", `row-${data.id}`);
+        const deleteSpan = $("<span>")
+          .text("(delete) ")
+          .css("cursor", "pointer")
+          .on("click", function () {
+            deletePost(data.id);
+          });
         const span = $("<span>").text(
           `Post created with id ${data.id}, title: ${data.title}, author: ${data.author}`
         );
-        paragraph.append(span);
+        paragraph.append(deleteSpan, span);
         $("body").append(paragraph);
+      }
+
+      function deletePost(id) {
+        $.ajax({
+          url: `http://localhost:3000/posts/${id}`,
+          method: "DELETE",
+        })
+          .done(function () {
+            $(`#row-${id}`).remove();
+          })
+          .fail(function () {
+            alert("Post was not deleted");
+          });
       }
 
       function listPosts() {
@@ -59,9 +78,13 @@
           method: "POST",
           contentType: "application/json",
           data: JSON.stringify(data),
-        }).fail(function () {
-          alert("Error sending the POST query");
-        });
+        })
+          .done(function (response) {
+            addPostRow(response);
+          })
+          .fail(function () {
+            alert("Error sending the POST query");
+          });
       }
 
       $(document).ready(function () {
