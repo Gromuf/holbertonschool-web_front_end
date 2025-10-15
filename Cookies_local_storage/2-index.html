@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1-index.html</title>
+    <title>2-index.html</title>
   </head>
   <body>
     <h2>Login to the website</h2>
@@ -22,9 +22,21 @@
         document.cookie = `email=${email}; expires=${expirationDate.toUTCString()}; path=/`;
       }
       function showCookies() {
+        const email = getCookie("email");
+        const firstname = getCookie("firstname");
         let cookies = document.createElement("p");
-        cookies.innerText = "Cookies: " + document.cookie;
+        cookies.innerText = `Email: ${email} - Firstname: ${firstname}`;
         document.body.appendChild(cookies);
+      }
+      function getCookie(name) {
+        let cookieArr = document.cookie.split(";");
+        for (let i = 0; i < cookieArr.length; i++) {
+          let cookiePair = cookieArr[i].split("=");
+          if (name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+          }
+        }
+        return "";
       }
     </script>
   </body>
