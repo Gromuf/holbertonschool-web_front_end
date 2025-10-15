@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>0-index.html</title>
+    <title>1-index.html</title>
   </head>
   <body>
     <h2>Login to the website</h2>
@@ -14,10 +14,12 @@
     <button onclick="showCookies()">Show the cookies</button>
     <script>
       function setCookies() {
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 10);
         let firstname = document.getElementById("firstname").value;
         let email = document.getElementById("email").value;
-        document.cookie = "firstname=" + firstname;
-        document.cookie = "email=" + email;
+        document.cookie = `firstname= ${firstname}; expires=${expirationDate.toUTCString()}; path=/`;
+        document.cookie = `email= ${email}; expires=${expirationDate.toUTCString()}; path=/`;
       }
       function showCookies() {
         let cookies = document.createElement("p");
